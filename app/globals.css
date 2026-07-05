@@ -1,0 +1,228 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: #0f172a;
+}
+
+body {
+  background-color: #0f172a !important;
+  color: #e2e8f0;
+  font-family: var(--font-sans), sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Keep content visible if client-side animation hydration stalls. */
+main [style*="opacity:0"],
+main [style*="opacity: 0"],
+nav[style*="opacity:0"],
+nav [style*="opacity:0"],
+footer [style*="opacity:0"],
+footer [style*="opacity: 0"] {
+  opacity: 1 !important;
+}
+
+/* Dark Mode Defaults */
+html {
+  color-scheme: dark;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2563eb;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #1d4ed8;
+}
+
+/* Selection */
+::selection {
+  background-color: #2563eb;
+  color: white;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: 3.5rem;
+  line-height: 1.1;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
+  }
+}
+
+h2 {
+  font-size: 2.5rem;
+  line-height: 1.2;
+}
+
+@media (max-width: 768px) {
+  h2 {
+    font-size: 1.75rem;
+  }
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+p {
+  font-weight: 400;
+}
+
+/* Links */
+a {
+  transition: color 0.3s ease;
+}
+
+/* Buttons */
+.btn {
+  @apply inline-flex items-center justify-center px-6 py-3 rounded-lg font-medium transition-all duration-300 ease-out;
+}
+
+.btn-primary {
+  @apply bg-primary-600 text-white hover:bg-primary-700 hover:shadow-glow;
+}
+
+.btn-secondary {
+  @apply bg-dark-card border border-dark-border text-white hover:border-primary-600 hover:bg-dark-border;
+}
+
+.btn-ghost {
+  @apply text-white hover:text-primary-400 hover:bg-dark-card border border-transparent;
+}
+
+/* Cards */
+.card {
+  @apply bg-dark-card border border-dark-border rounded-lg backdrop-blur-xs transition-all duration-300;
+}
+
+.card-hover {
+  @apply hover:border-primary-600 hover:bg-opacity-80 hover:shadow-glow cursor-pointer;
+}
+
+/* Glass Morphism */
+.glass {
+  @apply bg-dark-card/40 backdrop-blur-md border border-dark-border/50;
+}
+
+/* Gradient Text */
+.gradient-text {
+  @apply bg-gradient-blue bg-clip-text text-transparent;
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(37, 99, 235, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(37, 99, 235, 0.5);
+  }
+}
+
+@keyframes shine {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.animate-glow {
+  animation: glow 3s ease-in-out infinite;
+}
+
+.animate-shine {
+  background-size: 1000px 100%;
+  animation: shine 3s linear infinite;
+}
+
+/* Utilities */
+.text-gradient {
+  @apply bg-gradient-to-r from-primary-400 to-accent-400 bg-clip-text text-transparent;
+}
+
+.blur-glass {
+  @apply backdrop-blur-xl bg-white/10 border border-white/20;
+}
+
+/* Container */
+.container {
+  @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* Section */
+.section {
+  @apply py-16 sm:py-24 md:py-32;
+}
+
+/* Separator */
+.separator {
+  @apply h-px w-full bg-gradient-to-r from-transparent via-dark-border to-transparent;
+}
+
+/* Form Styles */
+input, textarea {
+  @apply w-full bg-dark-card border border-dark-border rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:border-primary-600 focus:outline-none focus:ring-1 focus:ring-primary-600 transition-all duration-300;
+}
+
+/* Code Block */
+code {
+  @apply bg-dark-card px-2 py-1 rounded text-accent-400 font-mono text-sm;
+}
+
+pre {
+  @apply bg-dark-card border border-dark-border rounded-lg p-4 overflow-x-auto;
+}
+
+pre code {
+  @apply p-0 bg-transparent;
+}
+
+/* Particles Background */
+.particles {
+  @apply fixed inset-0 z-0 pointer-events-none;
+}
+
+.particle {
+  @apply absolute rounded-full bg-primary-600/30;
+}

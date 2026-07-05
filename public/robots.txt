@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /.next
+Sitemap: https://narraabhinav.com/sitemap.xml
+
+# Specific rules for bots
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /

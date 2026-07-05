@@ -1,0 +1,35 @@
+{
+  "name": "narra-abhinav-portfolio",
+  "version": "1.0.0",
+  "description": "Premium portfolio website for Business Analytics professional",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "next": "15.5.20",
+    "framer-motion": "^11.0.0",
+    "lucide-react": "^0.408.0",
+    "@radix-ui/react-dialog": "^1.1.1",
+    "clsx": "^2.0.0",
+    "tailwind-merge": "^2.3.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0",
+    "@types/node": "^20.10.0",
+    "@types/react": "^19.0.0-rc",
+    "@types/react-dom": "^19.0.0-rc",
+    "tailwindcss": "^3.4.0",
+    "postcss": "^8.4.0",
+    "autoprefixer": "^10.4.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "eslint": "^8.54.0",
+    "eslint-config-next": "^15.0.0"
+  }
+}
