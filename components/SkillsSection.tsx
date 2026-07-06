@@ -1,141 +1,96 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { Database, LineChart, Network, Sparkles } from 'lucide-react'
 import { SKILLS } from '@/lib/constants'
 
+const icons = [Database, LineChart, Network, Sparkles]
+const proficiency = [
+  { name: 'Power BI Dashboard Design', level: 92 },
+  { name: 'Python Analytics', level: 88 },
+  { name: 'Predictive Analytics', level: 84 },
+  { name: 'Business Storytelling', level: 90 },
+]
+
 export function SkillsSection() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 },
-    },
-  }
-
-  const skillVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: { duration: 0.4 },
-    },
-  }
-
   return (
-    <section id="skills" className="section relative bg-dark-card/50 border-y border-dark-border">
+    <section id="skills" className="section bg-white">
       <div className="container">
-        {/* Section Header */}
-        <motion.div
-          className="text-center mb-16"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          <motion.div variants={itemVariants}>
-            <span className="text-primary-400 font-semibold uppercase tracking-widest">My Expertise</span>
-          </motion.div>
-          <motion.h2 variants={itemVariants} className="text-4xl md:text-5xl font-bold mt-2 mb-4">
-            Technical Skills
-          </motion.h2>
-          <motion.div variants={itemVariants} className="separator mx-auto mb-4" />
-          <motion.p variants={itemVariants} className="text-slate-400 max-w-2xl mx-auto text-lg">
-            A comprehensive toolkit of programming languages, analytics frameworks, and business intelligence tools
-          </motion.p>
-        </motion.div>
-
-        {/* Skills Grid */}
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 gap-8"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-100px' }}
-        >
-          {SKILLS.map((skillGroup, index) => (
-            <motion.div
-              key={index}
-              className="card p-8 hover:border-primary-600 hover:shadow-glow transition-all"
-              variants={itemVariants}
-              whileHover={{ translateY: -5 }}
-            >
-              <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-primary-600" />
-                {skillGroup.category}
-              </h3>
-
-              <div className="flex flex-wrap gap-3">
-                {skillGroup.items.map((skill, skillIndex) => (
-                  <motion.div
-                    key={skillIndex}
-                    className="px-4 py-2 rounded-lg bg-dark-bg border border-dark-border text-slate-300 font-medium text-sm hover:border-primary-600 hover:text-primary-400 transition-all hover:shadow-glow"
-                    variants={skillVariants}
-                    whileHover={{ scale: 1.1 }}
-                  >
-                    {skill}
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Proficiency Levels */}
-        <motion.div
-          className="mt-16 card p-8"
-          variants={itemVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          <h3 className="text-2xl font-bold text-white mb-8">Proficiency Levels</h3>
-
-          <div className="space-y-6">
-            {[
-              { name: 'Python & SQL', level: 90 },
-              { name: 'Data Analysis & Statistics', level: 88 },
-              { name: 'Power BI & Excel', level: 85 },
-              { name: 'Machine Learning', level: 82 },
-              { name: 'R Programming', level: 75 },
-              { name: 'Business Intelligence', level: 87 },
-            ].map((skill, index) => (
-              <motion.div
-                key={index}
-                className="space-y-2"
-                variants={skillVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-              >
-                <div className="flex justify-between items-center mb-2">
-                  <span className="font-medium text-white">{skill.name}</span>
-                  <span className="text-primary-400 font-bold">{skill.level}%</span>
-                </div>
-                <div className="w-full bg-dark-bg border border-dark-border rounded-full overflow-hidden h-2">
-                  <motion.div
-                    className="h-full bg-gradient-blue rounded-full"
-                    initial={{ width: 0 }}
-                    whileInView={{ width: `${skill.level}%` }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1, ease: 'easeOut', delay: 0.1 * index }}
-                  />
-                </div>
-              </motion.div>
-            ))}
+        <div className="mb-14 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+          <div>
+            <p className="eyebrow">Skills</p>
+            <h2 className="section-title">Analytics toolkit for dashboards, models, and insights.</h2>
           </div>
-        </motion.div>
+          <p className="max-w-xl text-corporate-body">
+            A balanced stack across BI reporting, Python analytics, machine learning, and executive communication.
+          </p>
+        </div>
+
+        <div className="grid gap-8 lg:grid-cols-3">
+          <motion.div
+            className="grid gap-8 lg:col-span-2 md:grid-cols-2"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-100px' }}
+            variants={{ visible: { transition: { staggerChildren: 0.08 } } }}
+          >
+            {SKILLS.map((group, index) => {
+              const Icon = icons[index] ?? Database
+              return (
+                <motion.div
+                  key={group.category}
+                  className="group bento-card p-6"
+                  variants={{ hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0 } }}
+                  whileHover={{ y: -6 }}
+                >
+                  <div className="mb-5 flex items-center gap-3">
+                    <span className="rounded-2xl border border-primary-100 bg-primary-50 p-2 text-primary-600 transition duration-300 group-hover:bg-primary-600 group-hover:text-white">
+                      <Icon size={22} />
+                    </span>
+                    <h3 className="text-xl">{group.category}</h3>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {group.items.map((skill) => (
+                      <span key={skill} className="badge">
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </motion.div>
+              )
+            })}
+          </motion.div>
+
+          <motion.div
+            className="bento-card p-6"
+            initial={{ opacity: 0, x: 24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55 }}
+          >
+            <p className="eyebrow">Capability Map</p>
+            <h3 className="mt-3 text-2xl">Recruiter-ready strengths</h3>
+            <div className="mt-7 space-y-6">
+              {proficiency.map((item) => (
+                <div key={item.name}>
+                  <div className="mb-2 flex items-center justify-between text-sm">
+                    <span className="font-semibold text-corporate-heading">{item.name}</span>
+                    <span className="text-primary-600">{item.level}%</span>
+                  </div>
+                  <div className="h-2 rounded-full bg-corporate-border">
+                    <motion.div
+                      className="h-full rounded-full bg-gradient-to-r from-primary-600 to-accent-500"
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${item.level}%` }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.9 }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   )

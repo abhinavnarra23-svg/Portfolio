@@ -1,117 +1,61 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Award, ExternalLink } from 'lucide-react'
+import { Award, BookOpenCheck } from 'lucide-react'
 import { CERTIFICATIONS } from '@/lib/constants'
 
 export function CertificationsSection() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.1,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, scale: 0.9 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: { duration: 0.6 },
-    },
-  }
-
   return (
     <section id="certifications" className="section">
       <div className="container">
-        {/* Section Header */}
-        <motion.div
-          className="text-center mb-16"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          <motion.div variants={itemVariants}>
-            <span className="text-primary-400 font-semibold uppercase tracking-widest">Credentials</span>
-          </motion.div>
-          <motion.h2 variants={itemVariants} className="text-4xl md:text-5xl font-bold mt-2 mb-4">
-            Certifications & Credentials
-          </motion.h2>
-          <motion.div variants={itemVariants} className="separator mx-auto mb-4" />
-          <motion.p variants={itemVariants} className="text-slate-400 max-w-2xl mx-auto text-lg">
-            Continuous learning and professional development through industry-recognized certifications
-          </motion.p>
-        </motion.div>
+        <div className="mb-14 max-w-3xl">
+          <p className="eyebrow">Certifications</p>
+          <h2 className="section-title">Credentials supporting analytics execution.</h2>
+          <p className="section-copy">Focused learning across Python foundations, R programming, and analytics practice.</p>
+        </div>
 
-        {/* Certifications Grid */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-          variants={containerVariants}
+          className="grid gap-8 md:grid-cols-2"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-100px' }}
+          variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
         >
           {CERTIFICATIONS.map((cert) => (
             <motion.div
               key={cert.id}
-              className="group card p-8 hover:border-primary-600 hover:shadow-glow transition-all cursor-pointer"
-              variants={itemVariants}
-              whileHover={{ scale: 1.05, y: -10 }}
+              className="bento-card p-6"
+              variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+              whileHover={{ y: -6 }}
             >
-              {/* Icon */}
-              <div className="w-12 h-12 rounded-lg bg-primary-600/20 flex items-center justify-center mb-4 group-hover:bg-primary-600/40 transition-all">
-                <Award className="text-primary-400" size={28} />
+              <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl border border-accent-100 bg-accent-50 text-accent-600">
+                <Award size={26} />
               </div>
-
-              {/* Content */}
-              <h3 className="text-xl font-bold text-white mb-2">{cert.title}</h3>
-              <p className="text-primary-400 font-semibold mb-3">{cert.issuer}</p>
-              <p className="text-slate-400 text-sm mb-4">{cert.date}</p>
-
-              {/* Credential Link */}
-              {cert.credentialUrl && (
-                <a
-                  href={cert.credentialUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-primary-400 hover:text-primary-300 transition-colors text-sm font-medium"
-                >
-                  View Credential
-                  <ExternalLink size={16} />
-                </a>
-              )}
+              <h3 className="text-2xl">{cert.title}</h3>
+              <p className="mt-2 font-semibold text-primary-600">{cert.issuer}</p>
+              <p className="mt-1 text-sm text-corporate-muted">{cert.date}</p>
             </motion.div>
           ))}
-        </motion.div>
 
-        {/* Additional Learning */}
-        <motion.div
-          className="mt-16 card p-8 bg-dark-card/50"
-          variants={itemVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          <h3 className="text-2xl font-bold text-white mb-6">Continuous Learning</h3>
-          <p className="text-slate-300 mb-4">Currently exploring:</p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {['Advanced Machine Learning', 'Cloud Analytics (AWS/GCP)', 'Deep Learning with TensorFlow'].map(
-              (course, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-center gap-3 p-4 rounded-lg bg-dark-bg border border-dark-border hover:border-primary-600 transition-colors"
-                >
-                  <span className="text-2xl">📚</span>
-                  <span className="text-slate-300">{course}</span>
+          <motion.div
+            className="bento-card p-6 md:col-span-2"
+            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
+          >
+            <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+              <div className="flex items-start gap-4">
+                <BookOpenCheck className="mt-1 text-primary-600" size={28} />
+                <div>
+                  <h3 className="text-2xl">Continuous Learning Focus</h3>
+                  <p className="mt-2 text-corporate-body">
+                    Advanced machine learning, cloud analytics, data visualization, and executive analytics storytelling.
+                  </p>
                 </div>
-              )
-            )}
-          </div>
+              </div>
+              <span className="rounded-2xl border border-primary-100 bg-primary-50 px-4 py-2 text-sm font-bold text-primary-600">
+                Analytics Growth Track
+              </span>
+            </div>
+          </motion.div>
         </motion.div>
       </div>
     </section>

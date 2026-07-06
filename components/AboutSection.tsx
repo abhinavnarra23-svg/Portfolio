@@ -1,169 +1,114 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Briefcase, Award, Zap } from 'lucide-react'
-import { PROFILE_SUMMARY, EDUCATION } from '@/lib/constants'
+import { BarChart3, BriefcaseBusiness, GraduationCap, Target, TrendingUp } from 'lucide-react'
+import { EDUCATION, PERSON_INFO, PROFILE_SUMMARY, PROFILE_TAGS } from '@/lib/constants'
 
 export function AboutSection() {
-  const stats = [
-    { label: 'Projects Completed', value: '3+', icon: Briefcase },
-    { label: 'Internships', value: '1+', icon: Award },
-    { label: 'Tools & Technologies', value: '10+', icon: Zap },
-  ]
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.1,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 },
-    },
-  }
-
   return (
-    <section id="about" className="section relative">
+    <section id="about" className="section">
       <div className="container">
-        {/* Section Header */}
+        <div className="mb-10 max-w-3xl">
+          <p className="eyebrow">About Me</p>
+          <h2 className="section-title">Business analytics profile built for decision support.</h2>
+          <p className="section-copy">{PROFILE_SUMMARY}</p>
+        </div>
+
         <motion.div
-          className="text-center mb-16"
-          variants={containerVariants}
+          className="grid gap-8 lg:grid-cols-4"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: '-100px' }}
+          variants={{ visible: { transition: { staggerChildren: 0.08 } } }}
         >
-          <motion.div variants={itemVariants}>
-            <span className="text-primary-400 font-semibold uppercase tracking-widest">About Me</span>
-          </motion.div>
-          <motion.h2 variants={itemVariants} className="text-4xl md:text-5xl font-bold mt-2 mb-4">
-            Business Analytics Professional
-          </motion.h2>
-          <motion.div variants={itemVariants} className="separator mx-auto mb-4" />
-        </motion.div>
-
-        {/* Main Content */}
-        <motion.div
-          className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start mb-16"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          {/* Left Column - Summary */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Profile Summary */}
-            <motion.div variants={itemVariants} className="card p-8">
-              <h3 className="text-2xl font-bold text-white mb-4">Professional Summary</h3>
-              <p className="text-slate-300 leading-relaxed text-lg">{PROFILE_SUMMARY}</p>
-            </motion.div>
-
-            {/* Education */}
-            <motion.div variants={itemVariants} className="space-y-4">
-              <h3 className="text-2xl font-bold text-white">Education</h3>
-              {EDUCATION.map((edu, index) => (
-                <motion.div
-                  key={index}
-                  className="card p-6 hover:border-primary-600 transition-all"
-                  variants={itemVariants}
-                >
-                  <div className="flex justify-between items-start mb-2">
-                    <div>
-                      <h4 className="text-xl font-bold text-white">{edu.degree}</h4>
-                      <p className="text-accent-400">{edu.specialization}</p>
-                    </div>
-                    <span className="text-xs font-semibold text-primary-400 bg-primary-600/10 px-3 py-1 rounded-full">
-                      {edu.period}
-                    </span>
-                  </div>
-                  <p className="text-slate-400">{edu.institution}</p>
-                  <p className="text-slate-500 text-sm mt-2">GPA: {edu.gpa}</p>
-                </motion.div>
+          <motion.div
+            className="bento-card premium-border p-7 lg:col-span-2"
+            variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5 } } }}
+            whileHover={{ y: -6, scale: 1.01 }}
+          >
+            <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
+              <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-[20px] bg-primary-600 font-heading text-2xl font-extrabold text-white shadow-glow">
+                NA
+              </div>
+              <div>
+                <p className="eyebrow">Professional Profile</p>
+                <h3 className="mt-2 text-3xl">{PERSON_INFO.name}</h3>
+                <p className="mt-2 font-semibold text-primary-600">{PERSON_INFO.title}</p>
+                <p className="mt-4 text-corporate-body">{PROFILE_SUMMARY}</p>
+              </div>
+            </div>
+            <div className="mt-7 flex flex-wrap gap-3">
+              {PROFILE_TAGS.map((tag) => (
+                <span key={tag} className="badge bg-white">
+                  {tag}
+                </span>
               ))}
-            </motion.div>
-          </div>
-
-          {/* Right Column - Stats */}
-          <motion.div variants={itemVariants} className="space-y-4">
-            <h3 className="text-2xl font-bold text-white mb-6">Statistics</h3>
-            {stats.map((stat, index) => {
-              const Icon = stat.icon
-              return (
-                <motion.div
-                  key={index}
-                  className="card p-6 border-l-4 border-primary-600"
-                  variants={itemVariants}
-                  whileHover={{ scale: 1.05, translateY: -5 }}
-                >
-                  <div className="flex items-center gap-4 mb-2">
-                    <Icon className="text-primary-400" size={24} />
-                    <p className="text-slate-400 text-sm">{stat.label}</p>
-                  </div>
-                  <p className="text-3xl font-bold text-gradient">{stat.value}</p>
-                </motion.div>
-              )
-            })}
+            </div>
           </motion.div>
-        </motion.div>
 
-        {/* Key Highlights */}
-        <motion.div
-          className="space-y-4"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          <h3 className="text-2xl font-bold text-white mb-6">Key Highlights</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[
-              {
-                title: 'Data Analysis',
-                desc: 'Expert in exploratory data analysis and statistical insights',
-              },
-              {
-                title: 'Machine Learning',
-                desc: 'Proficient with XGBoost, Scikit-learn, and predictive modeling',
-              },
-              {
-                title: 'BI Tools',
-                desc: 'Advanced Power BI dashboards and data visualization',
-              },
-              {
-                title: 'SQL & Python',
-                desc: 'Strong database querying and Python programming skills',
-              },
-              {
-                title: 'Problem Solving',
-                desc: 'Analytical approach to complex business problems',
-              },
-              {
-                title: 'Communication',
-                desc: 'Ability to translate data insights into business value',
-              },
-            ].map((highlight, index) => (
-              <motion.div
-                key={index}
-                className="card p-6 hover:border-primary-600 hover:shadow-glow transition-all"
-                variants={itemVariants}
-                whileHover={{ scale: 1.05 }}
-              >
-                <h4 className="font-bold text-white mb-2">{highlight.title}</h4>
-                <p className="text-slate-400 text-sm">{highlight.desc}</p>
-              </motion.div>
-            ))}
+          <BentoCard className="lg:col-span-2" icon={<Target />} title="Analytics Focus">
+            <p className="text-corporate-body">
+              I translate business questions into datasets, dashboards, and explainable insights that help teams act
+              faster across retail, healthcare, credit risk, and HR analytics.
+            </p>
+          </BentoCard>
+
+          <BentoCard icon={<BarChart3 />} title="Dashboard Thinking">
+            <p className="text-sm text-corporate-body">Power BI dashboards, MIS reporting, KPI design, and visual storytelling.</p>
+          </BentoCard>
+
+          <BentoCard icon={<TrendingUp />} title="Predictive Lens">
+            <p className="text-sm text-corporate-body">Machine learning, feature engineering, risk modeling, and trend analysis.</p>
+          </BentoCard>
+
+          <BentoCard icon={<BriefcaseBusiness />} title="Business Context">
+            <p className="text-sm text-corporate-body">Retail analytics, workforce reporting, healthcare operations, and credit risk use cases.</p>
+          </BentoCard>
+
+          <div className="bento-card p-6 lg:col-span-4">
+            <div className="mb-5 flex items-center gap-3">
+              <GraduationCap className="text-primary-600" size={26} />
+              <h3 className="text-2xl">Education</h3>
+            </div>
+            <div className="grid gap-6 md:grid-cols-2">
+              {EDUCATION.map((edu) => (
+                <div key={edu.degree} className="rounded-2xl border border-corporate-border bg-corporate-background p-4">
+                  <p className="text-sm font-semibold text-primary-600">{edu.period}</p>
+                  <h4 className="mt-2 text-lg font-bold">{edu.degree}</h4>
+                  <p className="text-sm text-corporate-body">{edu.specialization}</p>
+                  <p className="mt-3 text-sm font-medium text-corporate-heading">{edu.institution}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </motion.div>
       </div>
     </section>
+  )
+}
+
+function BentoCard({
+  children,
+  className,
+  icon,
+  title,
+}: {
+  children: React.ReactNode
+  className?: string
+  icon: React.ReactNode
+  title: string
+}) {
+  return (
+    <motion.div
+      className={`bento-card p-6 ${className ?? ''}`}
+      variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5 } } }}
+      whileHover={{ y: -6 }}
+    >
+      <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-2xl border border-primary-100 bg-primary-50 text-primary-600">
+        {icon}
+      </div>
+      <h3 className="mb-3 text-2xl">{title}</h3>
+      {children}
+    </motion.div>
   )
 }

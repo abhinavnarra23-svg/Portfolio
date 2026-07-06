@@ -2,11 +2,13 @@ export interface Project {
   id: string
   title: string
   description: string
+  businessImpact: string
   image: string
   tech: string[]
   insights: string[]
   links: {
     github?: string
+    live_demo?: string
     case_study?: string
     dashboard?: string
   }

@@ -1,117 +1,55 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Mail, Linkedin, Phone, Heart } from 'lucide-react'
+import { Download, Github, Linkedin, Mail } from 'lucide-react'
 import { PERSON_INFO } from '@/lib/constants'
 
 export function Footer() {
-  const currentYear = new Date().getFullYear()
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.5 },
-    },
-  }
+  const links = [
+    { label: 'GitHub', href: `https://github.com/${PERSON_INFO.github}`, icon: <Github size={19} /> },
+    { label: 'LinkedIn', href: `https://linkedin.com/in/${PERSON_INFO.linkedin}`, icon: <Linkedin size={19} /> },
+    { label: 'Email', href: `mailto:${PERSON_INFO.email}`, icon: <Mail size={19} /> },
+    { label: 'Resume', href: '/resume.pdf', icon: <Download size={19} /> },
+  ]
 
   return (
-    <footer className="bg-dark-bg border-t border-dark-border mt-20">
-      <div className="container py-12 md:py-16">
+    <footer className="border-t border-corporate-border bg-white">
+      <div className="container py-10">
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
+          className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between"
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
+          transition={{ duration: 0.45 }}
         >
-          {/* About */}
-          <motion.div variants={itemVariants}>
-            <h3 className="text-lg font-bold text-white mb-4">Narra Abhinav</h3>
-            <p className="text-slate-400 text-sm leading-relaxed">
-              Business Analytics student transforming data into actionable insights. Passionate about machine learning,
-              data visualization, and driving business decisions through analytics.
+          <div>
+            <h3 className="text-xl font-bold">Narra Abhinav</h3>
+            <p className="mt-2 max-w-xl text-sm text-corporate-body">
+              Executive analytics portfolio combining Power BI dashboards, Python analytics, and business insight
+              storytelling.
             </p>
-          </motion.div>
-
-          {/* Quick Links */}
-          <motion.div variants={itemVariants}>
-            <h3 className="text-lg font-bold text-white mb-4">Quick Links</h3>
-            <ul className="space-y-2">
-              {['About', 'Projects', 'Experience', 'Contact'].map((link) => (
-                <li key={link}>
-                  <a
-                    href={`#${link.toLowerCase()}`}
-                    className="text-slate-400 hover:text-primary-400 text-sm transition-colors"
-                  >
-                    {link}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-
-          {/* Social Links */}
-          <motion.div variants={itemVariants}>
-            <h3 className="text-lg font-bold text-white mb-4">Connect</h3>
-            <div className="flex gap-4">
-              <a
-                href={`https://linkedin.com/in/${PERSON_INFO.linkedin}`}
-                target="_blank"
+          </div>
+          <div className="flex flex-wrap gap-3">
+            {links.map((link) => (
+              <motion.a
+                key={link.label}
+                href={link.href}
+                target={link.href.startsWith('http') ? '_blank' : undefined}
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-lg bg-dark-card border border-dark-border flex items-center justify-center text-slate-400 hover:text-primary-400 hover:border-primary-600 transition-all"
-                aria-label="LinkedIn"
+                download={link.label === 'Resume' ? true : undefined}
+                className="flex h-11 w-11 items-center justify-center rounded-2xl border border-corporate-border bg-white text-corporate-muted shadow-sm hover:border-primary-500 hover:bg-primary-50 hover:text-primary-600"
+                aria-label={link.label}
+                whileHover={{ y: -4, scale: 1.04 }}
+                transition={{ duration: 0.3 }}
               >
-                <Linkedin size={20} />
-              </a>
-              <a
-                href={`mailto:${PERSON_INFO.email}`}
-                className="w-10 h-10 rounded-lg bg-dark-card border border-dark-border flex items-center justify-center text-slate-400 hover:text-primary-400 hover:border-primary-600 transition-all"
-                aria-label="Email"
-              >
-                <Mail size={20} />
-              </a>
-              <a
-                href={`tel:${PERSON_INFO.phone}`}
-                className="w-10 h-10 rounded-lg bg-dark-card border border-dark-border flex items-center justify-center text-slate-400 hover:text-primary-400 hover:border-primary-600 transition-all"
-                aria-label="Phone"
-              >
-                <Phone size={20} />
-              </a>
-            </div>
-          </motion.div>
+                {link.icon}
+              </motion.a>
+            ))}
+          </div>
         </motion.div>
-
-        {/* Divider */}
-        <div className="separator my-8" />
-
-        {/* Bottom */}
-        <motion.div
-          className="flex flex-col sm:flex-row items-center justify-between gap-4"
-          variants={itemVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          <p className="text-slate-400 text-sm">
-            © {currentYear} Narra Abhinav. All rights reserved.
-          </p>
-          <p className="text-slate-400 text-sm flex items-center gap-2">
-            Made with <Heart size={16} className="text-red-500" /> using Next.js & TailwindCSS
-          </p>
-        </motion.div>
+        <div className="mt-8 border-t border-corporate-border pt-6 text-sm text-corporate-muted">
+          Copyright {new Date().getFullYear()} Narra Abhinav. All rights reserved.
+        </div>
       </div>
     </footer>
   )

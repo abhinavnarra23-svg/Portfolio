@@ -1,228 +1,167 @@
 'use client'
 
 import { useState } from 'react'
-import { motion } from 'framer-motion'
 import Image from 'next/image'
-import { ExternalLink, Github, FileText, BarChart3 } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { ExternalLink, FileText, Github, Sparkles, Target, TrendingUp } from 'lucide-react'
 import { PROJECTS } from '@/lib/constants'
 import type { Project } from '@/lib/types'
 
-type LinkType = keyof Project['links']
+type Filter = 'all' | Project['category']
 
-const getLinkIcon = (type: LinkType) => {
-  switch (type) {
-    case 'github':
-      return <Github size={18} />
-    case 'case_study':
-      return <FileText size={18} />
-    case 'dashboard':
-      return <BarChart3 size={18} />
-    default:
-      return <ExternalLink size={18} />
-  }
-}
+const filters: { label: string; value: Filter }[] = [
+  { label: 'All', value: 'all' },
+  { label: 'Analytics', value: 'analytics' },
+  { label: 'Machine Learning', value: 'ml' },
+  { label: 'Dashboards', value: 'dashboard' },
+]
 
 export function ProjectsSection() {
-  const [filter, setFilter] = useState<'all' | 'analytics' | 'ml' | 'dashboard' | 'other'>('all')
-
-  const categories = [
-    { value: 'all' as const, label: 'All Projects' },
-    { value: 'analytics' as const, label: 'Analytics' },
-    { value: 'ml' as const, label: 'Machine Learning' },
-    { value: 'dashboard' as const, label: 'Dashboards' },
-  ]
-
-  const filteredProjects =
-    filter === 'all' ? PROJECTS : PROJECTS.filter((project) => project.category === filter)
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 },
-    },
-  }
-
-  const projectVariants = {
-    hidden: { opacity: 0, scale: 0.95 },
-    visible: { opacity: 1, scale: 1, transition: { duration: 0.4 } },
-    exit: { opacity: 0, scale: 0.95, transition: { duration: 0.3 } },
-  }
+  const [filter, setFilter] = useState<Filter>('all')
+  const projects = filter === 'all' ? PROJECTS : PROJECTS.filter((project) => project.category === filter)
 
   return (
-    <section id="projects" className="section relative bg-dark-card/50 border-y border-dark-border">
+    <section id="projects" className="section section-soft">
       <div className="container">
-        {/* Section Header */}
-        <motion.div
-          className="text-center mb-16"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          <motion.div variants={itemVariants}>
-            <span className="text-primary-400 font-semibold uppercase tracking-widest">Portfolio</span>
-          </motion.div>
-          <motion.h2 variants={itemVariants} className="text-4xl md:text-5xl font-bold mt-2 mb-4">
-            Featured Projects
-          </motion.h2>
-          <motion.div variants={itemVariants} className="separator mx-auto mb-4" />
-          <motion.p variants={itemVariants} className="text-slate-400 max-w-2xl mx-auto text-lg">
-            A selection of data analytics and machine learning projects demonstrating practical skills
-          </motion.p>
-        </motion.div>
+        <div className="mb-14 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+          <div>
+            <p className="eyebrow">Projects</p>
+            <h2 className="section-title">Analytics case work with dashboard-first storytelling.</h2>
+            <p className="section-copy">
+              Each project is framed around the business question, the analytical method, and the decision impact a
+              recruiter or consulting team would want to see.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2 rounded-[20px] border border-corporate-border bg-white/80 p-2 shadow-sm backdrop-blur">
+            {filters.map((item) => (
+              <button
+                key={item.value}
+                onClick={() => setFilter(item.value)}
+                className={`rounded-[14px] border px-4 py-2 text-sm font-bold transition duration-300 ${
+                  filter === item.value
+                    ? 'border-primary-600 bg-primary-600 text-white shadow-corporate'
+                    : 'border-corporate-border bg-white text-corporate-body hover:border-primary-500 hover:bg-primary-50 hover:text-primary-600'
+                }`}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+        </div>
 
-        {/* Filter Buttons */}
         <motion.div
-          className="flex flex-wrap justify-center gap-4 mb-12"
-          variants={itemVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-        >
-          {categories.map((category) => (
-            <button
-              key={category.value}
-              onClick={() => setFilter(category.value)}
-              className={`px-6 py-2 rounded-lg font-medium transition-all ${
-                filter === category.value
-                  ? 'bg-primary-600 text-white shadow-glow'
-                  : 'bg-dark-card border border-dark-border text-slate-300 hover:border-primary-600'
-              }`}
-            >
-              {category.label}
-            </button>
-          ))}
-        </motion.div>
-
-        {/* Projects Grid */}
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          variants={containerVariants}
+          className="grid gap-8 md:grid-cols-2"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-100px' }}
+          variants={{ visible: { transition: { staggerChildren: 0.09 } } }}
         >
-          {filteredProjects.map((project) => (
-            <motion.div
-              key={project.id}
-              variants={projectVariants}
-              initial="hidden"
-              animate="visible"
-              layout
-            >
-              <ProjectCard project={project} />
-            </motion.div>
+          {projects.map((project) => (
+            <ProjectCard key={project.id} project={project} featured={project.id === '1' && filter === 'all'} />
           ))}
         </motion.div>
-
-        {/* No Projects Message */}
-        {filteredProjects.length === 0 && (
-          <motion.div
-            className="text-center py-12"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.4 }}
-          >
-            <p className="text-slate-400">No projects found in this category.</p>
-          </motion.div>
-        )}
       </div>
     </section>
   )
 }
 
-function ProjectCard({ project }: { project: Project }) {
+function ProjectCard({ project, featured = false }: { project: Project; featured?: boolean }) {
+  const shortPreview = ['2', '3', '4'].includes(project.id)
+
   return (
-    <motion.div
-      className="card overflow-hidden hover:border-primary-600 hover:shadow-glow transition-all h-full flex flex-col"
-      whileHover={{ y: -5 }}
+    <motion.article
+      className={`group bento-card overflow-hidden ${featured ? 'premium-border md:col-span-2' : ''}`}
+      variants={{ hidden: { opacity: 0, y: 24 }, visible: { opacity: 1, y: 0, transition: { duration: 0.55 } } }}
+      whileHover={{ y: -8, scale: 1.01 }}
     >
-      {/* Image */}
-      <div className="relative h-48 overflow-hidden bg-dark-bg">
+      <div className={featured ? 'grid lg:grid-cols-[1.08fr_0.92fr]' : ''}>
+      <div
+        className={`relative overflow-hidden border-b border-corporate-border bg-corporate-background p-3 ${
+          featured ? 'min-h-[360px] lg:border-b-0 lg:border-r' : shortPreview ? 'h-52 sm:h-56' : 'h-64'
+        }`}
+      >
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(37,99,235,0.08),transparent_18rem),radial-gradient(circle_at_80%_20%,rgba(20,184,166,0.08),transparent_18rem)]" />
         <Image
           src={project.image}
           alt={project.title}
           fill
-          sizes="(max-width: 768px) 100vw, 33vw"
-          className="object-cover"
-          quality={75}
+          sizes={featured ? '(max-width: 1024px) 100vw, 55vw' : '(max-width: 768px) 100vw, 50vw'}
+          priority={featured}
+          className={`object-contain opacity-95 transition duration-500 group-hover:scale-[1.03] group-hover:opacity-100 ${
+            featured ? 'p-5 sm:p-8' : 'p-4'
+          }`}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-dark-bg to-transparent opacity-60" />
+        <div className="absolute inset-0 bg-gradient-to-t from-white/85 via-transparent to-transparent" />
+        <div className="absolute bottom-4 left-4 rounded-2xl border border-corporate-border bg-white/90 px-3 py-2 text-sm font-semibold text-primary-600 shadow-sm backdrop-blur">
+          {project.category === 'ml' ? 'Predictive Analytics' : project.category === 'dashboard' ? 'BI Dashboard' : 'Business Analytics'}
+        </div>
+        {featured && (
+          <div className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-2xl border border-primary-100 bg-white/90 px-3 py-2 text-sm font-bold text-primary-600 shadow-sm backdrop-blur">
+            <Sparkles size={16} />
+            Featured Project
+          </div>
+        )}
       </div>
 
-      {/* Content */}
-      <div className="flex-1 p-6 flex flex-col">
-        {/* Title & Description */}
-        <h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
-        <p className="text-slate-400 text-sm mb-4 flex-1 leading-relaxed">{project.description}</p>
+      <div className={featured ? 'p-7 sm:p-8' : 'p-6'}>
+        <h3 className={featured ? 'text-3xl sm:text-4xl' : 'text-2xl'}>{project.title}</h3>
+        <p className="mt-4 text-sm leading-6 text-corporate-body">
+          <span className="font-semibold text-corporate-heading">Problem statement: </span>
+          {project.description}
+        </p>
 
-        {/* Tech Stack */}
-        <div className="mb-4 space-y-2">
-          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Tech Stack</p>
-          <div className="flex flex-wrap gap-2">
-            {project.tech.slice(0, 3).map((tech) => (
-              <span
-                key={tech}
-                className="px-2 py-1 text-xs rounded bg-primary-600/20 text-primary-400 border border-primary-600/30"
-              >
-                {tech}
-              </span>
-            ))}
-            {project.tech.length > 3 && (
-              <span className="px-2 py-1 text-xs rounded bg-slate-700/20 text-slate-400">
-                +{project.tech.length - 3}
-              </span>
-            )}
-          </div>
+        <div className="mt-5 rounded-2xl border border-primary-100 bg-primary-50/70 p-4">
+          <p className="mb-2 flex items-center gap-2 text-sm font-bold text-corporate-heading">
+            <TrendingUp size={17} className="text-primary-600" />
+            Business Impact
+          </p>
+          <p className="text-sm leading-6 text-corporate-body">{project.businessImpact}</p>
         </div>
 
-        {/* Insights */}
-        <div className="mb-6 space-y-2">
-          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide">Key Insights</p>
-          <ul className="space-y-1">
-            {project.insights.slice(0, 2).map((insight, idx) => (
-              <li key={idx} className="text-xs text-slate-400 flex items-start gap-2">
-                <span className="text-primary-400 mt-1">✓</span>
-                {insight}
+        <div className="mt-5 flex flex-wrap gap-2">
+          {project.tech.map((tech) => (
+            <span key={tech} className="badge text-xs">
+              {tech}
+            </span>
+          ))}
+        </div>
+
+        <div className="mt-6 rounded-2xl border border-corporate-border bg-corporate-background p-4">
+          <p className="mb-3 flex items-center gap-2 text-sm font-bold uppercase tracking-normal text-corporate-heading">
+            <Target size={16} className="text-primary-600" />
+            Key Insights
+          </p>
+          <ul className="space-y-2">
+            {project.insights.slice(0, featured ? 4 : 3).map((insight) => (
+              <li key={insight} className="flex gap-2 text-sm text-corporate-body">
+                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent-500" />
+                <span>{insight}</span>
               </li>
             ))}
           </ul>
         </div>
 
-        {/* Links */}
-        <div className="border-t border-dark-border pt-4 flex gap-3 flex-wrap">
-          {Object.entries(project.links ?? {}).map(([type, url]) => {
-            if (!url) return null
-            const linkType = type as LinkType
-            return (
-              <a
-                key={type}
-                href={url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 px-3 py-2 text-sm rounded-lg bg-dark-bg border border-dark-border text-slate-300 hover:text-primary-400 hover:border-primary-600 transition-all"
-                title={type.replace('_', ' ')}
-              >
-                {getLinkIcon(linkType)}
-                <span className="capitalize hidden sm:inline">{type.replace('_', ' ')}</span>
-              </a>
-            )
-          })}
+        <div className="mt-6 flex flex-wrap gap-3">
+          <ProjectLink href={project.links.github} icon={<Github size={17} />} label="GitHub" />
+          <ProjectLink href={project.links.live_demo} icon={<ExternalLink size={17} />} label="Live Demo" />
+          <ProjectLink href={project.links.case_study} icon={<FileText size={17} />} label="Case Study" />
         </div>
       </div>
-    </motion.div>
+      </div>
+    </motion.article>
+  )
+}
+
+function ProjectLink({ href, icon, label }: { href?: string; icon: React.ReactNode; label: string }) {
+  return (
+    <a
+      href={href || '#'}
+      target={href && href !== '#' ? '_blank' : undefined}
+      rel={href && href !== '#' ? 'noopener noreferrer' : undefined}
+      className="inline-flex items-center gap-2 rounded-[14px] border border-corporate-border bg-white px-3 py-2 text-sm font-bold text-corporate-body shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-primary-500 hover:bg-primary-50 hover:text-primary-600"
+    >
+      {icon}
+      {label}
+    </a>
   )
 }

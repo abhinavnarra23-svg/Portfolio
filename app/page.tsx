@@ -9,19 +9,16 @@ import {
   ExperienceSection,
   ProjectsSection,
   CertificationsSection,
+  ResumeSection,
   ContactSection,
 } from '@/components'
 import ScrollProgressBar from '@/components/ScrollProgressBar'
-import ParticlesBackground from '@/components/ParticlesBackground'
 
 export default function Home() {
   return (
     <>
       {/* Scroll Progress Bar */}
       <ScrollProgressBar />
-
-      {/* Particles Background */}
-      <ParticlesBackground />
 
       {/* Navigation */}
       <Navbar />
@@ -45,6 +42,9 @@ export default function Home() {
 
         {/* Certifications Section */}
         <CertificationsSection />
+
+        {/* Resume Section */}
+        <ResumeSection />
 
         {/* Contact Section */}
         <ContactSection />
